@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
 import avatar from "@/assets/projeto/avatar.jpg";
+import stravaIcon from "@/assets/projeto/strava.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
