@@ -413,14 +413,17 @@ function Index() {
                       style={{
                         display: "inline-flex", alignItems: "center", justifyContent: "center",
                         width: 40, height: 40, borderRadius: 11,
-                        background: "linear-gradient(135deg, var(--neon) 0%, var(--neon-2) 100%)",
+                        background: "img" in link && link.img
+                          ? "oklch(1 0 0 / 0.95)"
+                          : "linear-gradient(135deg, var(--neon) 0%, var(--neon-2) 100%)",
                         color: "oklch(0.15 0.02 150)", flexShrink: 0,
+                        boxShadow: "img" in link && link.img ? "0 4px 14px oklch(0.65 0.22 40 / 0.35)" : "none",
                       }}
                     >
                       {"Icon" in link && link.Icon ? (
                         <link.Icon size={17} />
                       ) : "img" in link && link.img ? (
-                        <img src={link.img} alt={link.label} style={{ width: 22, height: 22, objectFit: "contain" }} />
+                        <img src={link.img} alt={link.label} style={{ width: 26, height: 26, objectFit: "contain" }} />
                       ) : null}
                     </span>
                     <span style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
