@@ -45,8 +45,8 @@ function Index() {
         accent: "#8b5a2b",
       }
     : {
-        bg: "#0a0908",
-        bgGrad: "radial-gradient(1200px 600px at 20% -10%, #1a1410 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #0f1a1e 0%, transparent 55%), #0a0908",
+        bg: "#03110a",
+        bgGrad: "radial-gradient(1200px 600px at 20% -10%, #0a3a24 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #0d4a2a 0%, transparent 55%), linear-gradient(160deg, #041a10 0%, #02120a 55%, #010805 100%)",
         text: "#f5f0e8",
         subtle: "#8a8178",
         card: "rgba(255,255,255,0.03)",
