@@ -59,20 +59,31 @@ function Index() {
   return (
     <>
       <style>{`
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+        .fc-shell { max-width: 480px; margin: 0 auto; padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 24px) clamp(32px, 8vw, 48px); width: 100%; }
+        .fc-title { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin: 0; font-size: clamp(28px, 7vw, 36px); }
+        .fc-avatar { width: clamp(84px, 22vw, 104px); height: clamp(84px, 22vw, 104px); border-radius: 50%; display: block; position: relative; }
         .fc-link { transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
         .fc-link:hover { background: ${theme.cardHover} !important; border-color: ${theme.borderStrong} !important; transform: translateY(-1px); }
         .fc-link:hover .fc-arrow { transform: translate(2px, -2px); opacity: 1; }
-        .fc-arrow { transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1); opacity: 0.4; }
-        .fc-theme-btn { transition: background 0.3s ease, transform 0.2s ease; }
+        .fc-link-label { font-size: clamp(13px, 3.6vw, 14px); font-weight: 600; letter-spacing: -0.005em; }
+        .fc-link-handle { font-size: clamp(11px, 3.2vw, 12px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .fc-arrow { transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1); opacity: 0.4; flex-shrink: 0; }
+        .fc-theme-btn { transition: background 0.3s ease, transform 0.2s ease; touch-action: manipulation; }
         .fc-theme-btn:hover { transform: scale(1.05); }
         .fc-avatar-ring { animation: fc-pulse 4s ease-in-out infinite; }
         @keyframes fc-pulse { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 0.9; transform: scale(1.03); } }
         .fc-fade-in { animation: fc-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
         @keyframes fc-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @media (hover: none) {
+          .fc-link:hover { transform: none; }
+          .fc-theme-btn:hover { transform: none; }
+        }
       `}</style>
       <main
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           background: theme.bgGrad,
           color: theme.text,
           fontFamily: "'Inter', system-ui, sans-serif",
@@ -80,7 +91,8 @@ function Index() {
           fontFeatureSettings: "'ss01', 'cv11'",
         }}
       >
-        <div style={{ maxWidth: 480, margin: "0 auto", padding: "80px 24px 48px" }}>
+        <div className="fc-shell">
+
           {/* Header */}
           <header className="fc-fade-in" style={{ textAlign: "center", marginBottom: 40 }}>
             <div style={{ position: "relative", display: "inline-block", marginBottom: 20 }}>
@@ -97,28 +109,11 @@ function Index() {
               <img
                 src={avatar}
                 alt="Francisco Chagas"
-                style={{
-                  position: "relative",
-                  width: 96,
-                  height: 96,
-                  borderRadius: "50%",
-                  border: `1px solid ${theme.borderStrong}`,
-                  display: "block",
-                }}
+                className="fc-avatar"
+                style={{ border: `1px solid ${theme.borderStrong}`, objectFit: "cover" }}
               />
             </div>
-            <h1
-              style={{
-                fontFamily: "'Instrument Serif', Georgia, serif",
-                fontSize: 34,
-                fontWeight: 400,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                margin: 0,
-              }}
-            >
-              Francisco Chagas
-            </h1>
+            <h1 className="fc-title">Francisco Chagas</h1>
           </header>
 
           {/* Theme toggle */}
@@ -134,6 +129,7 @@ function Index() {
                 WebkitBackdropFilter: "blur(12px)",
               }}
             >
+
               {[
                 { key: false as const, Icon: Moon, label: "Escuro" },
                 { key: true as const, Icon: Sun, label: "Claro" },
@@ -149,7 +145,8 @@ function Index() {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 6,
-                      padding: "6px 14px",
+                      padding: "8px 16px",
+                      minHeight: 36,
                       border: 0,
                       borderRadius: 999,
                       background: active ? theme.text : "transparent",
@@ -181,8 +178,8 @@ function Index() {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 16,
-                    padding: "16px 20px",
+                    gap: 14,
+                    padding: "14px 16px",
                     background: theme.card,
                     border: `1px solid ${theme.border}`,
                     borderRadius: 14,
@@ -190,6 +187,7 @@ function Index() {
                     WebkitBackdropFilter: "blur(12px)",
                     textDecoration: "none",
                     color: theme.text,
+                    minHeight: 60,
                   }}
                 >
                   <span
@@ -208,16 +206,8 @@ function Index() {
                     <Icon size={17} />
                   </span>
                   <span style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-                    <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "-0.005em" }}>{label}</span>
-                    <span
-                      style={{
-                        fontSize: 12,
-                        color: theme.subtle,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <span className="fc-link-label">{label}</span>
+                    <span className="fc-link-handle" style={{ color: theme.subtle }}>
                       {handle}
                     </span>
                   </span>
