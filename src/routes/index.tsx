@@ -59,20 +59,31 @@ function Index() {
   return (
     <>
       <style>{`
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+        .fc-shell { max-width: 480px; margin: 0 auto; padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 24px) clamp(32px, 8vw, 48px); width: 100%; }
+        .fc-title { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin: 0; font-size: clamp(28px, 7vw, 36px); }
+        .fc-avatar { width: clamp(84px, 22vw, 104px); height: clamp(84px, 22vw, 104px); border-radius: 50%; display: block; position: relative; }
         .fc-link { transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
         .fc-link:hover { background: ${theme.cardHover} !important; border-color: ${theme.borderStrong} !important; transform: translateY(-1px); }
         .fc-link:hover .fc-arrow { transform: translate(2px, -2px); opacity: 1; }
-        .fc-arrow { transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1); opacity: 0.4; }
-        .fc-theme-btn { transition: background 0.3s ease, transform 0.2s ease; }
+        .fc-link-label { font-size: clamp(13px, 3.6vw, 14px); font-weight: 600; letter-spacing: -0.005em; }
+        .fc-link-handle { font-size: clamp(11px, 3.2vw, 12px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .fc-arrow { transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1); opacity: 0.4; flex-shrink: 0; }
+        .fc-theme-btn { transition: background 0.3s ease, transform 0.2s ease; touch-action: manipulation; }
         .fc-theme-btn:hover { transform: scale(1.05); }
         .fc-avatar-ring { animation: fc-pulse 4s ease-in-out infinite; }
         @keyframes fc-pulse { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 0.9; transform: scale(1.03); } }
         .fc-fade-in { animation: fc-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
         @keyframes fc-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @media (hover: none) {
+          .fc-link:hover { transform: none; }
+          .fc-theme-btn:hover { transform: none; }
+        }
       `}</style>
       <main
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           background: theme.bgGrad,
           color: theme.text,
           fontFamily: "'Inter', system-ui, sans-serif",
@@ -80,7 +91,8 @@ function Index() {
           fontFeatureSettings: "'ss01', 'cv11'",
         }}
       >
-        <div style={{ maxWidth: 480, margin: "0 auto", padding: "80px 24px 48px" }}>
+        <div className="fc-shell">
+
           {/* Header */}
           <header className="fc-fade-in" style={{ textAlign: "center", marginBottom: 40 }}>
             <div style={{ position: "relative", display: "inline-block", marginBottom: 20 }}>
