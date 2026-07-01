@@ -387,41 +387,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Projects */}
-          <section className="fc-fade-in-2" style={{ marginBottom: 32 }}>
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 14, padding: "0 4px" }}>
-              <h2 style={{ margin: 0, fontSize: 13, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: t.subtle }}>
-                Projetos
-              </h2>
-              <span className="fc-serif" style={{ fontSize: 13, color: "var(--neon)" }}>em destaque</span>
-            </div>
-            <div style={{ display: "grid", gap: 10 }}>
-              {projects.map((p) => (
-                <a
-                  key={p.title}
-                  href={p.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="fc-card"
-                  style={{ display: "block", padding: 14, textDecoration: "none", color: t.text }}
-                >
-                  <div className="fc-project-preview" style={{ background: p.gradient }} />
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                        <span style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.01em" }}>{p.title}</span>
-                      </div>
-                      <p style={{ margin: "0 0 6px", fontSize: 12.5, color: t.subtle, lineHeight: 1.45 }}>{p.description}</p>
-                      <span style={{ fontSize: 10.5, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--neon)" }}>
-                        {p.tag}
-                      </span>
-                    </div>
-                    <ExternalLink className="fc-arrow" size={15} color={t.subtle} />
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
 
           {/* Links */}
           <section className="fc-fade-in-3">
