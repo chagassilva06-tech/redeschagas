@@ -119,9 +119,6 @@ function Index() {
             >
               Francisco Chagas
             </h1>
-            <p style={{ margin: "8px 0 0", color: theme.subtle, fontSize: 14, letterSpacing: "0.02em" }}>
-              @FranciscoChagas · Desenvolvedor
-            </p>
           </header>
 
           {/* Theme toggle */}
