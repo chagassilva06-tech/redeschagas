@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
 import avatar from "@/assets/projeto/avatar.jpg";
+import stravaIcon from "@/assets/projeto/strava.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,6 +37,7 @@ const links = [
   { href: "https://github.com/chagassilva06-tech", label: "GitHub", handle: "chagassilva06-tech", Icon: Github },
   { href: "https://www.instagram.com/silva.franciscochagas/", label: "Instagram", handle: "@silva.franciscochagas", Icon: Instagram },
   { href: "https://www.linkedin.com/in/francisco-das-chagas-ferreira-silva-b880601b3/", label: "LinkedIn", handle: "Francisco C. F. Silva", Icon: Linkedin },
+  { href: "https://www.strava.com/athletes/44632513", label: "Strava", handle: "athletes/44632513", img: stravaIcon },
 ];
 
 const projects = [
@@ -394,11 +396,11 @@ function Index() {
               Redes
             </h2>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10, padding: 0, margin: 0 }}>
-              {links.map(({ href, label, handle, Icon }) => (
-                <li key={href}>
+              {links.map((link) => (
+                <li key={link.href}>
                   <a
                     className="fc-card"
-                    href={href}
+                    href={link.href}
                     target="_blank"
                     rel="noreferrer"
                     style={{
@@ -415,12 +417,16 @@ function Index() {
                         color: "oklch(0.15 0.02 150)", flexShrink: 0,
                       }}
                     >
-                      <Icon size={17} />
+                      {"Icon" in link && link.Icon ? (
+                        <link.Icon size={17} />
+                      ) : "img" in link && link.img ? (
+                        <img src={link.img} alt={link.label} style={{ width: 22, height: 22, objectFit: "contain" }} />
+                      ) : null}
                     </span>
                     <span style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "-0.005em" }}>{label}</span>
+                      <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "-0.005em" }}>{link.label}</span>
                       <span style={{ fontSize: 12, color: t.subtle, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {handle}
+                        {link.handle}
                       </span>
                     </span>
                     <ArrowUpRight className="fc-arrow" size={16} color={t.subtle} />
@@ -429,6 +435,7 @@ function Index() {
               ))}
             </ul>
           </section>
+
 
           <footer
             style={{
