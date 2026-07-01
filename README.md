@@ -1,2 +1,3 @@
-#veja no no navegador!!
+#veja no navegador#
+
 https://redeschagas.lovable.app/
