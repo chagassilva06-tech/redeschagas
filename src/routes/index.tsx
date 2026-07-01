@@ -37,6 +37,7 @@ const links = [
   { href: "https://github.com/chagassilva06-tech", label: "GitHub", handle: "chagassilva06-tech", Icon: Github },
   { href: "https://www.instagram.com/silva.franciscochagas/", label: "Instagram", handle: "@silva.franciscochagas", Icon: Instagram },
   { href: "https://www.linkedin.com/in/francisco-das-chagas-ferreira-silva-b880601b3/", label: "LinkedIn", handle: "Francisco C. F. Silva", Icon: Linkedin },
+  { href: "https://www.strava.com/athletes/44632513", label: "Strava", handle: "athletes/44632513", img: stravaIcon },
 ];
 
 const projects = [
