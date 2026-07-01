@@ -1,1 +1,1 @@
-#https://redeschagas.lovable.app/#
+https://redeschagas.lovable.app/
