@@ -109,28 +109,11 @@ function Index() {
               <img
                 src={avatar}
                 alt="Francisco Chagas"
-                style={{
-                  position: "relative",
-                  width: 96,
-                  height: 96,
-                  borderRadius: "50%",
-                  border: `1px solid ${theme.borderStrong}`,
-                  display: "block",
-                }}
+                className="fc-avatar"
+                style={{ border: `1px solid ${theme.borderStrong}`, objectFit: "cover" }}
               />
             </div>
-            <h1
-              style={{
-                fontFamily: "'Instrument Serif', Georgia, serif",
-                fontSize: 34,
-                fontWeight: 400,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                margin: 0,
-              }}
-            >
-              Francisco Chagas
-            </h1>
+            <h1 className="fc-title">Francisco Chagas</h1>
           </header>
 
           {/* Theme toggle */}
@@ -146,6 +129,7 @@ function Index() {
                 WebkitBackdropFilter: "blur(12px)",
               }}
             >
+
               {[
                 { key: false as const, Icon: Moon, label: "Escuro" },
                 { key: true as const, Icon: Sun, label: "Claro" },
