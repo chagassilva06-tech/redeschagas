@@ -178,8 +178,8 @@ function Index() {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 16,
-                    padding: "16px 20px",
+                    gap: 14,
+                    padding: "14px 16px",
                     background: theme.card,
                     border: `1px solid ${theme.border}`,
                     borderRadius: 14,
@@ -187,6 +187,7 @@ function Index() {
                     WebkitBackdropFilter: "blur(12px)",
                     textDecoration: "none",
                     color: theme.text,
+                    minHeight: 60,
                   }}
                 >
                   <span
@@ -205,16 +206,8 @@ function Index() {
                     <Icon size={17} />
                   </span>
                   <span style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-                    <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "-0.005em" }}>{label}</span>
-                    <span
-                      style={{
-                        fontSize: 12,
-                        color: theme.subtle,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <span className="fc-link-label">{label}</span>
+                    <span className="fc-link-handle" style={{ color: theme.subtle }}>
                       {handle}
                     </span>
                   </span>
