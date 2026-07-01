@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Facebook, Github, Instagram, Linkedin, Moon, Sun, ArrowUpRight } from "lucide-react";
 
-import avatar from "@/assets/projeto/avatar.png";
+import avatar from "@/assets/projeto/avatar.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
