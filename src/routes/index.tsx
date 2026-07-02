@@ -71,7 +71,7 @@ function Index() {
   const avatarRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
 
-  const profileUrl = typeof window !== "undefined" ? window.location.href : "";
+  const profileUrl = "https://redeschagas.lovable.app/";
 
   // Cursor aurora + avatar tilt
   useEffect(() => {
