@@ -524,18 +524,19 @@ function Index() {
             <section
               className="fc-tile col-footer"
               style={{
-                flexDirection: "row", alignItems: "center", justifyContent: "space-between",
-                gap: 16, flexWrap: "wrap",
-                padding: "18px 24px", minHeight: 0,
+                flexDirection: "column", alignItems: "center", justifyContent: "center",
+                gap: 8, textAlign: "center",
+                padding: "20px 24px", minHeight: 0,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: t.subtle }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, fontSize: 13, color: t.subtle }}>
                 <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--aurora-green)", boxShadow: "0 0 12px var(--aurora-green)" }} />
                 <span>Desenvolvido por <span className="fc-serif" style={{ color: "var(--aurora-green)", fontSize: 15 }}>Francisco Chagas</span></span>
               </div>
               <div style={{ fontSize: 11.5, color: t.subtle, letterSpacing: "0.14em", textTransform: "uppercase" }}>
                 © {new Date().getFullYear()}
               </div>
+            </section>
             </section>
           </div>
         </div>
