@@ -537,7 +537,6 @@ function Index() {
                 © {new Date().getFullYear()}
               </div>
             </section>
-            </section>
           </div>
         </div>
 
