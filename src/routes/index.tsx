@@ -494,32 +494,31 @@ function Index() {
                 target="_blank"
                 rel="noreferrer"
                 className="fc-tile col-social fc-link-tile"
-                style={{ justifyContent: "space-between", gap: 14 }}
               >
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
-                  <span
-                    className="fc-icon-box"
-                    style={{
-                      background: link.img
-                        ? "oklch(1 0 0 / 0.95)"
-                        : `linear-gradient(135deg, ${link.accent} 0%, var(--aurora-purple) 130%)`,
-                      color: "oklch(0.15 0.03 265)",
-                      boxShadow: `0 6px 18px ${link.accent} / 0.25`,
-                    }}
-                  >
-                    {link.Icon ? <link.Icon size={18} /> : link.img ? (
-                      <img src={link.img} alt={link.label} style={{ width: 26, height: 26, objectFit: "contain" }} />
-                    ) : null}
+                <div className="fc-social-inner">
+                  <div className="fc-social-top">
+                    <span
+                      className="fc-icon-box"
+                      style={{
+                        background: link.img
+                          ? "oklch(1 0 0 / 0.95)"
+                          : `linear-gradient(135deg, ${link.accent} 0%, var(--aurora-purple) 130%)`,
+                        color: "oklch(0.15 0.03 265)",
+                        boxShadow: `0 6px 18px ${link.accent} / 0.25`,
+                      }}
+                    >
+                      {link.Icon ? <link.Icon size={18} /> : link.img ? (
+                        <img src={link.img} alt={link.label} style={{ width: 26, height: 26, objectFit: "contain" }} />
+                      ) : null}
+                    </span>
+                  </div>
+                  <div className="fc-social-body">
+                    <div className="fc-social-label">{link.label}</div>
+                    <div className="fc-social-handle">{link.handle}</div>
+                  </div>
+                  <span className="fc-social-arrow-wrap">
+                    <ArrowUpRight className="fc-arrow" size={18} color={t.subtle} />
                   </span>
-                  <ArrowUpRight className="fc-arrow" size={18} color={t.subtle} />
-                </div>
-                <div>
-                  <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 22, lineHeight: 1.1, color: t.text }}>
-                    {link.label}
-                  </div>
-                  <div style={{ fontSize: 12, color: t.subtle, marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {link.handle}
-                  </div>
                 </div>
               </a>
             ))}
