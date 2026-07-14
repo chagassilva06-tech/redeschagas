@@ -313,6 +313,19 @@ function Index() {
           flex-shrink: 0;
         }
 
+        /* Social tile — mobile row layout */
+        .fc-social-inner { display: flex; flex-direction: column; justify-content: space-between; gap: 14px; height: 100%; }
+        .fc-social-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .fc-social-label { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.1; color: ${t.text}; }
+        .fc-social-handle { font-size: 12px; color: ${t.subtle}; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        @media (max-width: 560px) {
+          .fc-social-inner { flex-direction: row; align-items: center; gap: 14px; }
+          .fc-social-top { flex: 0 0 auto; }
+          .fc-social-body { flex: 1; min-width: 0; }
+          .fc-social-label { font-size: 18px; }
+          .fc-social-arrow-wrap { align-self: center; }
+        }
+
         .fc-modal-overlay {
           position: fixed; inset: 0; z-index: 100;
           background: oklch(0.06 0.03 265 / 0.75);
