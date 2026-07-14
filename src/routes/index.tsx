@@ -191,11 +191,11 @@ function Index() {
           grid-auto-rows: minmax(120px, auto);
           gap: 14px;
         }
-        @media (max-width: 860px) {
+        @media (max-width: 960px) {
           .fc-bento { grid-template-columns: repeat(6, 1fr); gap: 12px; }
         }
-        @media (max-width: 520px) {
-          .fc-bento { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        @media (max-width: 560px) {
+          .fc-bento { grid-template-columns: repeat(2, 1fr); gap: 10px; grid-auto-rows: auto; }
         }
 
         .fc-tile {
@@ -205,11 +205,12 @@ function Index() {
           border-radius: 20px;
           backdrop-filter: blur(24px) saturate(140%);
           -webkit-backdrop-filter: blur(24px) saturate(140%);
-          padding: 20px;
+          padding: clamp(16px, 4vw, 20px);
           overflow: hidden;
           transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.35s ease, border-color 0.35s ease;
           display: flex; flex-direction: column;
           min-height: 100%;
+          min-width: 0;
         }
         .fc-tile::before {
           content: ""; position: absolute; inset: -1px; border-radius: 21px; padding: 1px;
@@ -226,26 +227,31 @@ function Index() {
 
         .fc-arrow { transition: all 0.35s cubic-bezier(0.22,1,0.36,1); opacity: 0.35; }
 
-        /* Tile layout spans */
+        /* Tile layout spans — desktop (12-col) */
         .col-hero { grid-column: span 7; grid-row: span 2; }
         .col-actions { grid-column: span 5; grid-row: span 1; }
         .col-qr { grid-column: span 5; grid-row: span 1; }
         .col-social { grid-column: span 4; grid-row: span 1; }
         .col-footer { grid-column: span 12; }
 
-        @media (max-width: 860px) {
-          .col-hero { grid-column: span 6; grid-row: span 2; }
-          .col-actions { grid-column: span 6; }
-          .col-qr { grid-column: span 6; }
+        /* Tablet (6-col) */
+        @media (max-width: 960px) {
+          .col-hero { grid-column: span 6; grid-row: auto; }
+          .col-actions { grid-column: span 3; }
+          .col-qr { grid-column: span 3; }
           .col-social { grid-column: span 3; }
           .col-footer { grid-column: span 6; }
         }
-        @media (max-width: 520px) {
-          .col-hero { grid-column: span 2; grid-row: span 1; }
-          .col-actions, .col-qr { grid-column: span 2; }
-          .col-social { grid-column: span 1; }
+
+        /* Mobile (2-col) — socials full-width row list */
+        @media (max-width: 560px) {
+          .col-hero { grid-column: span 2; grid-row: auto; }
+          .col-actions { grid-column: span 2; }
+          .col-qr { grid-column: span 2; }
+          .col-social { grid-column: span 2; min-height: 0; }
           .col-footer { grid-column: span 2; }
         }
+
 
         .fc-avatar {
           width: clamp(88px, 18vw, 128px);
@@ -305,6 +311,19 @@ function Index() {
           display: inline-flex; align-items: center; justify-content: center;
           width: 44px; height: 44px; border-radius: 12px;
           flex-shrink: 0;
+        }
+
+        /* Social tile — mobile row layout */
+        .fc-social-inner { display: flex; flex-direction: column; justify-content: space-between; gap: 14px; height: 100%; }
+        .fc-social-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .fc-social-label { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.1; color: ${t.text}; }
+        .fc-social-handle { font-size: 12px; color: ${t.subtle}; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        @media (max-width: 560px) {
+          .fc-social-inner { flex-direction: row; align-items: center; gap: 14px; }
+          .fc-social-top { flex: 0 0 auto; }
+          .fc-social-body { flex: 1; min-width: 0; }
+          .fc-social-label { font-size: 18px; }
+          .fc-social-arrow-wrap { align-self: center; }
         }
 
         .fc-modal-overlay {
@@ -475,32 +494,31 @@ function Index() {
                 target="_blank"
                 rel="noreferrer"
                 className="fc-tile col-social fc-link-tile"
-                style={{ justifyContent: "space-between", gap: 14 }}
               >
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
-                  <span
-                    className="fc-icon-box"
-                    style={{
-                      background: link.img
-                        ? "oklch(1 0 0 / 0.95)"
-                        : `linear-gradient(135deg, ${link.accent} 0%, var(--aurora-purple) 130%)`,
-                      color: "oklch(0.15 0.03 265)",
-                      boxShadow: `0 6px 18px ${link.accent} / 0.25`,
-                    }}
-                  >
-                    {link.Icon ? <link.Icon size={18} /> : link.img ? (
-                      <img src={link.img} alt={link.label} style={{ width: 26, height: 26, objectFit: "contain" }} />
-                    ) : null}
+                <div className="fc-social-inner">
+                  <div className="fc-social-top">
+                    <span
+                      className="fc-icon-box"
+                      style={{
+                        background: link.img
+                          ? "oklch(1 0 0 / 0.95)"
+                          : `linear-gradient(135deg, ${link.accent} 0%, var(--aurora-purple) 130%)`,
+                        color: "oklch(0.15 0.03 265)",
+                        boxShadow: `0 6px 18px ${link.accent} / 0.25`,
+                      }}
+                    >
+                      {link.Icon ? <link.Icon size={18} /> : link.img ? (
+                        <img src={link.img} alt={link.label} style={{ width: 26, height: 26, objectFit: "contain" }} />
+                      ) : null}
+                    </span>
+                  </div>
+                  <div className="fc-social-body">
+                    <div className="fc-social-label">{link.label}</div>
+                    <div className="fc-social-handle">{link.handle}</div>
+                  </div>
+                  <span className="fc-social-arrow-wrap">
+                    <ArrowUpRight className="fc-arrow" size={18} color={t.subtle} />
                   </span>
-                  <ArrowUpRight className="fc-arrow" size={18} color={t.subtle} />
-                </div>
-                <div>
-                  <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 22, lineHeight: 1.1, color: t.text }}>
-                    {link.label}
-                  </div>
-                  <div style={{ fontSize: 12, color: t.subtle, marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {link.handle}
-                  </div>
                 </div>
               </a>
             ))}
