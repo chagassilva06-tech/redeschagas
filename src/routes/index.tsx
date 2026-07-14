@@ -516,7 +516,7 @@ function Index() {
             >
               <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: t.subtle }}>
                 <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--aurora-green)", boxShadow: "0 0 12px var(--aurora-green)" }} />
-                <span>Feito com <span className="fc-serif" style={{ color: "var(--aurora-green)", fontSize: 15 }}>afeto</span> por Francisco</span>
+                <span>Desenvolvido por <span className="fc-serif" style={{ color: "var(--aurora-green)", fontSize: 15 }}>Francisco Chagas</span></span>
               </div>
               <div style={{ fontSize: 11.5, color: t.subtle, letterSpacing: "0.14em", textTransform: "uppercase" }}>
                 © {new Date().getFullYear()}
