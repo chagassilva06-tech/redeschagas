@@ -321,10 +321,6 @@ function Index() {
             <h1 className="fc-title">
               Francisco <span className="fc-serif">Chagas</span>
             </h1>
-            <div className="fc-status">
-              <span className="fc-dot" />
-              Disponível para trabalho
-            </div>
           </header>
 
           {/* Action bar */}
