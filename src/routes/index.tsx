@@ -11,7 +11,8 @@ import {
   Copy,
   QrCode,
   X,
-  ExternalLink,
+  MapPin,
+  Sparkles,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { toast } from "sonner";
@@ -23,69 +24,43 @@ import stravaIcon from "@/assets/projeto/strava.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Francisco Chagas — Desenvolvedor" },
-      { name: "description", content: "Links, projetos e contatos de Francisco Chagas." },
-      { property: "og:title", content: "Francisco Chagas — Desenvolvedor" },
-      { property: "og:description", content: "Links, projetos e contatos de Francisco Chagas." },
+      { title: "Francisco Chagas — Minhas Conexões" },
+      { name: "description", content: "Links, redes sociais e contatos de Francisco Chagas." },
+      { property: "og:title", content: "Francisco Chagas — Minhas Conexões" },
+      { property: "og:description", content: "Links, redes sociais e contatos de Francisco Chagas." },
     ],
   }),
   component: Index,
 });
 
-const links = [
-  { href: "https://www.facebook.com/", label: "Facebook", handle: "facebook.com", Icon: Facebook },
-  { href: "https://github.com/chagassilva06-tech", label: "GitHub", handle: "chagassilva06-tech", Icon: Github },
-  { href: "https://www.instagram.com/silva.franciscochagas/", label: "Instagram", handle: "@silva.franciscochagas", Icon: Instagram },
-  { href: "https://www.linkedin.com/in/francisco-das-chagas-ferreira-silva-b880601b3/", label: "LinkedIn", handle: "Francisco C. F. Silva", Icon: Linkedin },
-  { href: "https://www.strava.com/athletes/44632513", label: "Strava", handle: "athletes/44632513", img: stravaIcon },
-];
+type SocialLink = {
+  href: string;
+  label: string;
+  handle: string;
+  Icon?: typeof Facebook;
+  img?: string;
+  accent: string;
+};
 
-const projects = [
-  {
-    title: "Portfolio Interativo",
-    description: "Site pessoal com animações fluidas e design premium.",
-    tag: "React · Motion",
-    href: "https://github.com/Franksilva959",
-    gradient: "linear-gradient(135deg, oklch(0.72 0.22 155) 0%, oklch(0.75 0.18 200) 100%)",
-  },
-  {
-    title: "Dashboard Analytics",
-    description: "Painel de dados em tempo real com visualizações elegantes.",
-    tag: "TypeScript · D3",
-    href: "https://github.com/Franksilva959",
-    gradient: "linear-gradient(135deg, oklch(0.78 0.20 130) 0%, oklch(0.72 0.22 155) 100%)",
-  },
-  {
-    title: "E-commerce Modular",
-    description: "Loja completa com checkout, pagamentos e admin.",
-    tag: "Next.js · Stripe",
-    href: "https://github.com/Franksilva959",
-    gradient: "linear-gradient(135deg, oklch(0.70 0.18 200) 0%, oklch(0.78 0.20 130) 100%)",
-  },
+const links: SocialLink[] = [
+  { href: "https://github.com/chagassilva06-tech", label: "GitHub", handle: "chagassilva06-tech", Icon: Github, accent: "oklch(0.78 0.15 280)" },
+  { href: "https://www.instagram.com/silva.franciscochagas/", label: "Instagram", handle: "@silva.franciscochagas", Icon: Instagram, accent: "oklch(0.72 0.20 20)" },
+  { href: "https://www.linkedin.com/in/francisco-das-chagas-ferreira-silva-b880601b3/", label: "LinkedIn", handle: "Francisco C. F. Silva", Icon: Linkedin, accent: "oklch(0.68 0.16 240)" },
+  { href: "https://www.strava.com/athletes/44632513", label: "Strava", handle: "athletes/44632513", img: stravaIcon, accent: "oklch(0.72 0.20 40)" },
+  { href: "https://www.facebook.com/", label: "Facebook", handle: "facebook.com", Icon: Facebook, accent: "oklch(0.68 0.16 250)" },
 ];
 
 function Index() {
   const [light, setLight] = useState(false);
   const [showQR, setShowQR] = useState(false);
-  const shellRef = useRef<HTMLDivElement>(null);
-  const avatarRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   const profileUrl = "https://redeschagas.lovable.app/";
 
-  // Cursor aurora + avatar tilt
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      }
-      if (avatarRef.current) {
-        const rect = avatarRef.current.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / 40;
-        const dy = (e.clientY - cy) / 40;
-        avatarRef.current.style.transform = `perspective(600px) rotateY(${Math.max(-12, Math.min(12, dx))}deg) rotateX(${Math.max(-12, Math.min(12, -dy))}deg)`;
       }
     };
     window.addEventListener("mousemove", handleMove);
@@ -95,44 +70,45 @@ function Index() {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(profileUrl);
-      toast.success("Link copiado!", { description: "Compartilhe onde quiser." });
+      toast.success("Link copiado", { description: "Compartilhe onde quiser." });
     } catch {
       toast.error("Não foi possível copiar");
     }
   };
 
-  // Particles
   const particles = useMemo(
     () =>
-      Array.from({ length: 24 }, (_, i) => ({
+      Array.from({ length: 18 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
         top: Math.random() * 100,
-        size: 2 + Math.random() * 4,
+        size: 2 + Math.random() * 3,
         delay: Math.random() * 8,
-        duration: 12 + Math.random() * 14,
+        duration: 14 + Math.random() * 12,
       })),
     [],
   );
 
   const t = light
     ? {
-        text: "oklch(0.20 0.02 150)",
-        subtle: "oklch(0.50 0.02 150)",
-        card: "oklch(1 0 0 / 0.55)",
-        cardHover: "oklch(1 0 0 / 0.80)",
-        border: "oklch(0.20 0.02 150 / 0.10)",
-        borderStrong: "oklch(0.20 0.02 150 / 0.22)",
-        bg: "oklch(0.96 0.01 150)",
+        text: "oklch(0.18 0.02 260)",
+        subtle: "oklch(0.48 0.03 260)",
+        card: "oklch(1 0 0 / 0.65)",
+        cardHover: "oklch(1 0 0 / 0.85)",
+        border: "oklch(0.20 0.04 260 / 0.10)",
+        borderStrong: "oklch(0.20 0.04 260 / 0.22)",
+        bg: "oklch(0.97 0.01 260)",
+        surface: "oklch(1 0 0 / 0.7)",
       }
     : {
-        text: "oklch(0.96 0.02 140)",
-        subtle: "oklch(0.62 0.02 150)",
-        card: "oklch(1 0 0 / 0.03)",
-        cardHover: "oklch(1 0 0 / 0.07)",
+        text: "oklch(0.97 0.01 260)",
+        subtle: "oklch(0.68 0.03 260)",
+        card: "oklch(1 0 0 / 0.04)",
+        cardHover: "oklch(1 0 0 / 0.08)",
         border: "oklch(1 0 0 / 0.08)",
-        borderStrong: "oklch(1 0 0 / 0.20)",
-        bg: "oklch(0.14 0.03 155)",
+        borderStrong: "oklch(1 0 0 / 0.18)",
+        bg: "oklch(0.16 0.04 270)",
+        surface: "oklch(0.20 0.05 265 / 0.55)",
       };
 
   return (
@@ -141,25 +117,25 @@ function Index() {
         * { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
         :root {
-          --neon: oklch(0.85 0.24 145);
-          --neon-2: oklch(0.82 0.18 200);
-          --neon-3: oklch(0.92 0.22 125);
+          --aurora-green: oklch(0.82 0.19 155);
+          --aurora-purple: oklch(0.76 0.15 300);
+          --aurora-navy: oklch(0.28 0.08 265);
         }
         .fc-mesh {
           position: fixed; inset: 0; z-index: 0; pointer-events: none;
           background:
-            radial-gradient(50% 40% at 20% 20%, oklch(0.42 0.20 150 / 0.55) 0%, transparent 60%),
-            radial-gradient(45% 45% at 85% 15%, oklch(0.55 0.18 200 / 0.35) 0%, transparent 65%),
-            radial-gradient(55% 45% at 75% 85%, oklch(0.50 0.22 130 / 0.45) 0%, transparent 60%),
-            radial-gradient(40% 40% at 10% 90%, oklch(0.42 0.16 190 / 0.30) 0%, transparent 65%);
-          filter: blur(20px) saturate(130%);
-          animation: fc-mesh 18s ease-in-out infinite alternate;
+            radial-gradient(55% 45% at 15% 20%, oklch(0.45 0.18 285 / 0.60) 0%, transparent 65%),
+            radial-gradient(50% 45% at 88% 12%, oklch(0.55 0.20 155 / 0.40) 0%, transparent 65%),
+            radial-gradient(60% 50% at 80% 88%, oklch(0.42 0.20 300 / 0.55) 0%, transparent 65%),
+            radial-gradient(45% 45% at 8% 92%, oklch(0.50 0.18 175 / 0.35) 0%, transparent 65%);
+          filter: blur(24px) saturate(135%);
+          animation: fc-mesh 22s ease-in-out infinite alternate;
         }
         .fc-mesh.light {
           background:
-            radial-gradient(50% 40% at 20% 20%, oklch(0.90 0.09 150 / 0.7) 0%, transparent 60%),
-            radial-gradient(45% 45% at 85% 15%, oklch(0.92 0.06 200 / 0.5) 0%, transparent 65%),
-            radial-gradient(55% 45% at 75% 85%, oklch(0.88 0.10 130 / 0.6) 0%, transparent 60%);
+            radial-gradient(55% 45% at 15% 20%, oklch(0.88 0.09 285 / 0.7) 0%, transparent 65%),
+            radial-gradient(50% 45% at 88% 12%, oklch(0.92 0.08 155 / 0.55) 0%, transparent 65%),
+            radial-gradient(60% 50% at 80% 88%, oklch(0.86 0.10 300 / 0.6) 0%, transparent 65%);
         }
         @keyframes fc-mesh {
           0% { transform: translate(0,0) scale(1); }
@@ -167,103 +143,188 @@ function Index() {
           100% { transform: translate(2%,-2%) scale(1.04); }
         }
         .fc-cursor {
-          position: fixed; top: 0; left: 0; width: 480px; height: 480px;
-          margin: -240px 0 0 -240px; pointer-events: none; z-index: 1;
-          background: radial-gradient(circle, oklch(0.85 0.24 145 / 0.18) 0%, oklch(0.82 0.18 200 / 0.08) 40%, transparent 70%);
-          mix-blend-mode: screen; transition: transform 0.15s cubic-bezier(0.22,1,0.36,1);
-          filter: blur(20px);
+          position: fixed; top: 0; left: 0; width: 520px; height: 520px;
+          margin: -260px 0 0 -260px; pointer-events: none; z-index: 1;
+          background: radial-gradient(circle, oklch(0.76 0.15 300 / 0.20) 0%, oklch(0.82 0.19 155 / 0.08) 40%, transparent 70%);
+          mix-blend-mode: screen; transition: transform 0.18s cubic-bezier(0.22,1,0.36,1);
+          filter: blur(24px);
         }
         @media (hover: none) { .fc-cursor { display: none; } }
         .fc-particle {
           position: absolute; border-radius: 50%;
-          background: radial-gradient(circle, var(--neon) 0%, transparent 70%);
+          background: radial-gradient(circle, var(--aurora-green) 0%, transparent 70%);
           animation: fc-float linear infinite;
-          opacity: 0.5;
+          opacity: 0.45;
         }
         @keyframes fc-float {
           0% { transform: translate(0, 0); opacity: 0; }
-          10% { opacity: 0.6; }
-          90% { opacity: 0.4; }
-          100% { transform: translate(30px, -120px); opacity: 0; }
+          10% { opacity: 0.5; }
+          90% { opacity: 0.35; }
+          100% { transform: translate(30px, -140px); opacity: 0; }
         }
-        .fc-shell { position: relative; z-index: 2; max-width: 520px; margin: 0 auto; padding: clamp(40px,10vw,80px) clamp(16px,5vw,24px) clamp(32px,8vw,48px); width: 100%; }
+        .fc-shell {
+          position: relative; z-index: 2;
+          max-width: 1180px; margin: 0 auto;
+          padding: clamp(28px, 6vw, 64px) clamp(16px, 4vw, 40px);
+          width: 100%;
+        }
+        .fc-topbar {
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 12px; margin-bottom: clamp(24px, 4vw, 40px);
+        }
+        .fc-brand {
+          font-family: 'Instrument Serif', Georgia, serif;
+          font-size: 22px; letter-spacing: -0.01em;
+        }
+        .fc-brand em { font-style: italic; color: var(--aurora-green); }
         .fc-kicker {
-          font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-          font-size: 11px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase;
-          color: var(--neon); margin-bottom: 12px; display: inline-flex; align-items: center; gap: 8px;
+          font-family: 'Work Sans', system-ui, sans-serif;
+          font-size: 10.5px; font-weight: 500; letter-spacing: 0.32em;
+          text-transform: uppercase; color: var(--aurora-green);
         }
-        .fc-title {
-          font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-          font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; margin: 0;
-          font-size: clamp(34px, 8vw, 46px);
-          background: linear-gradient(120deg, currentColor 0%, var(--neon) 55%, var(--neon-2) 100%);
-          -webkit-background-clip: text; background-clip: text; color: transparent;
+        .fc-serif { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+
+        /* Bento grid */
+        .fc-bento {
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          grid-auto-rows: minmax(120px, auto);
+          gap: 14px;
         }
-        .fc-serif { font-family: 'Fraunces', Georgia, serif; font-style: italic; }
-        .fc-avatar-wrap { transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); transform-style: preserve-3d; will-change: transform; }
-        .fc-avatar { width: clamp(96px, 24vw, 116px); height: clamp(96px, 24vw, 116px); border-radius: 50%; display: block; object-fit: cover; }
-        .fc-avatar-ring {
-          position: absolute; inset: -8px; border-radius: 50%;
-          background: conic-gradient(from 0deg, var(--neon), var(--neon-2), var(--neon-3), var(--neon));
-          filter: blur(10px); animation: fc-spin 8s linear infinite;
+        @media (max-width: 860px) {
+          .fc-bento { grid-template-columns: repeat(6, 1fr); gap: 12px; }
         }
-        @keyframes fc-spin { to { transform: rotate(360deg); } }
-        .fc-status {
-          display: inline-flex; align-items: center; gap: 8px;
-          padding: 6px 12px; border-radius: 999px;
-          background: oklch(0.55 0.20 145 / 0.12);
-          border: 1px solid oklch(0.75 0.22 145 / 0.35);
-          font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
-          color: var(--neon); margin-top: 14px;
+        @media (max-width: 520px) {
+          .fc-bento { grid-template-columns: repeat(2, 1fr); gap: 10px; }
         }
-        .fc-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--neon); box-shadow: 0 0 12px var(--neon); }
-        .fc-dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; background: var(--neon); opacity: 0.5; animation: fc-ping 1.8s cubic-bezier(0,0,0.2,1) infinite; }
-        @keyframes fc-ping { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2.2); opacity: 0; } }
-        .fc-card {
-          position: relative; background: ${t.card};
-          border: 1px solid ${t.border}; border-radius: 16px;
-          backdrop-filter: blur(20px) saturate(140%);
-          transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+
+        .fc-tile {
+          position: relative;
+          background: ${t.card};
+          border: 1px solid ${t.border};
+          border-radius: 20px;
+          backdrop-filter: blur(24px) saturate(140%);
+          -webkit-backdrop-filter: blur(24px) saturate(140%);
+          padding: 20px;
           overflow: hidden;
+          transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.35s ease, border-color 0.35s ease;
+          display: flex; flex-direction: column;
+          min-height: 100%;
         }
-        .fc-card::before {
-          content: ""; position: absolute; inset: -1px; border-radius: 17px; padding: 1px;
-          background: linear-gradient(120deg, transparent, var(--neon), var(--neon-2), transparent);
+        .fc-tile::before {
+          content: ""; position: absolute; inset: -1px; border-radius: 21px; padding: 1px;
+          background: linear-gradient(135deg, transparent 30%, var(--aurora-green), var(--aurora-purple), transparent 80%);
           -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
           -webkit-mask-composite: xor; mask-composite: exclude;
           opacity: 0; transition: opacity 0.4s ease;
+          pointer-events: none;
         }
-        .fc-card:hover { background: ${t.cardHover}; transform: translateY(-2px); }
-        .fc-card:hover::before { opacity: 1; }
-        .fc-card:hover .fc-arrow { transform: translate(2px, -2px); opacity: 1; }
-        .fc-arrow { transition: all 0.35s cubic-bezier(0.22,1,0.36,1); opacity: 0.4; flex-shrink: 0; }
-        .fc-theme-btn { transition: all 0.25s ease; touch-action: manipulation; }
-        .fc-fade-in { animation: fc-in 0.7s cubic-bezier(0.22,1,0.36,1) both; }
-        .fc-fade-in-2 { animation: fc-in 0.7s 0.15s cubic-bezier(0.22,1,0.36,1) both; }
-        .fc-fade-in-3 { animation: fc-in 0.7s 0.3s cubic-bezier(0.22,1,0.36,1) both; }
-        @keyframes fc-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        .fc-project-preview {
-          position: relative; height: 88px; border-radius: 12px; overflow: hidden;
-          margin-bottom: 12px;
+        .fc-tile:hover { background: ${t.cardHover}; transform: translateY(-3px); }
+        .fc-tile:hover::before { opacity: 1; }
+        .fc-link-tile { text-decoration: none; color: inherit; cursor: pointer; }
+        .fc-link-tile:hover .fc-arrow { transform: translate(3px, -3px); opacity: 1; }
+
+        .fc-arrow { transition: all 0.35s cubic-bezier(0.22,1,0.36,1); opacity: 0.35; }
+
+        /* Tile layout spans */
+        .col-hero { grid-column: span 7; grid-row: span 2; }
+        .col-actions { grid-column: span 5; grid-row: span 1; }
+        .col-qr { grid-column: span 5; grid-row: span 1; }
+        .col-social { grid-column: span 4; grid-row: span 1; }
+        .col-footer { grid-column: span 12; }
+
+        @media (max-width: 860px) {
+          .col-hero { grid-column: span 6; grid-row: span 2; }
+          .col-actions { grid-column: span 6; }
+          .col-qr { grid-column: span 6; }
+          .col-social { grid-column: span 3; }
+          .col-footer { grid-column: span 6; }
         }
-        .fc-project-preview::after {
-          content: ""; position: absolute; inset: 0;
-          background: radial-gradient(120% 80% at 50% 100%, transparent 40%, oklch(0 0 0 / 0.35) 100%);
+        @media (max-width: 520px) {
+          .col-hero { grid-column: span 2; grid-row: span 1; }
+          .col-actions, .col-qr { grid-column: span 2; }
+          .col-social { grid-column: span 1; }
+          .col-footer { grid-column: span 2; }
         }
+
+        .fc-avatar {
+          width: clamp(88px, 18vw, 128px);
+          height: clamp(88px, 18vw, 128px);
+          border-radius: 50%;
+          object-fit: cover;
+          display: block;
+          border: 1px solid ${t.borderStrong};
+        }
+        .fc-avatar-ring {
+          position: absolute; inset: -6px; border-radius: 50%;
+          background: conic-gradient(from 0deg, var(--aurora-green), var(--aurora-purple), var(--aurora-green));
+          filter: blur(12px); opacity: 0.7;
+          animation: fc-spin 10s linear infinite;
+        }
+        @keyframes fc-spin { to { transform: rotate(360deg); } }
+
+        .fc-title {
+          font-family: 'Instrument Serif', Georgia, serif;
+          font-weight: 400; letter-spacing: -0.02em; line-height: 1.02; margin: 0;
+          font-size: clamp(40px, 6vw, 68px);
+          color: ${t.text};
+        }
+        .fc-title em {
+          font-style: italic;
+          background: linear-gradient(120deg, var(--aurora-green) 0%, var(--aurora-purple) 100%);
+          -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .fc-body { font-family: 'Work Sans', system-ui, sans-serif; }
+
+        .fc-meta {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-family: 'Work Sans', sans-serif;
+          font-size: 12px; color: ${t.subtle};
+          padding: 5px 10px; border-radius: 999px;
+          background: ${t.card}; border: 1px solid ${t.border};
+        }
+
+        .fc-btn {
+          display: inline-flex; align-items: center; justify-content: center;
+          gap: 8px; padding: 11px 16px; min-height: 42px;
+          border-radius: 12px; cursor: pointer;
+          font-family: 'Work Sans', sans-serif;
+          font-size: 13px; font-weight: 500; letter-spacing: 0.01em;
+          background: ${t.card}; border: 1px solid ${t.border}; color: ${t.text};
+          transition: all 0.25s ease;
+        }
+        .fc-btn:hover { background: ${t.cardHover}; border-color: ${t.borderStrong}; }
+        .fc-btn-primary {
+          background: linear-gradient(135deg, var(--aurora-green) 0%, var(--aurora-purple) 100%);
+          color: oklch(0.12 0.04 265); border: 0;
+          box-shadow: 0 8px 24px oklch(0.55 0.18 175 / 0.30);
+        }
+        .fc-btn-primary:hover { box-shadow: 0 12px 32px oklch(0.55 0.18 175 / 0.45); transform: translateY(-1px); }
+
+        .fc-icon-box {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 44px; height: 44px; border-radius: 12px;
+          flex-shrink: 0;
+        }
+
         .fc-modal-overlay {
-          position: fixed; inset: 0; z-index: 100; background: oklch(0.05 0.02 150 / 0.75);
-          backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+          position: fixed; inset: 0; z-index: 100;
+          background: oklch(0.06 0.03 265 / 0.75);
+          backdrop-filter: blur(10px);
+          display: flex; align-items: center; justify-content: center;
           padding: 20px; animation: fc-in 0.25s ease-out;
         }
         .fc-modal {
           background: ${t.bg}; border: 1px solid ${t.borderStrong};
-          border-radius: 20px; padding: 32px; max-width: 340px; width: 100%;
+          border-radius: 24px; padding: 36px; max-width: 360px; width: 100%;
           position: relative; text-align: center;
-          box-shadow: 0 20px 60px oklch(0 0 0 / 0.4), 0 0 60px var(--neon) / 0.1;
+          box-shadow: 0 30px 80px oklch(0 0 0 / 0.5), 0 0 80px oklch(0.55 0.18 175 / 0.15);
         }
+        .fc-fade-in { animation: fc-in 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+        @keyframes fc-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
         @media (hover: none) {
-          .fc-card:hover { transform: none; }
-          .fc-avatar-wrap { transform: none !important; }
+          .fc-tile:hover { transform: none; }
         }
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -274,13 +335,12 @@ function Index() {
       <div ref={cursorRef} className="fc-cursor" />
 
       <main
-        ref={shellRef}
         style={{
           position: "relative",
           minHeight: "100dvh",
           background: t.bg,
           color: t.text,
-          fontFamily: "'Inter', system-ui, sans-serif",
+          fontFamily: "'Work Sans', system-ui, sans-serif",
           transition: "background 0.6s ease, color 0.4s ease",
           overflow: "hidden",
         }}
@@ -304,55 +364,11 @@ function Index() {
         </div>
 
         <div className="fc-shell">
-          {/* Header */}
-          <header className="fc-fade-in" style={{ textAlign: "center", marginBottom: 32 }}>
-            <div style={{ position: "relative", display: "inline-block", marginBottom: 22 }}>
-              <div className="fc-avatar-ring" />
-              <div ref={avatarRef} className="fc-avatar-wrap" style={{ position: "relative" }}>
-                <img
-                  src={avatar}
-                  alt="Francisco Chagas"
-                  className="fc-avatar"
-                  style={{ border: `1px solid ${t.borderStrong}` }}
-                />
-              </div>
+          {/* Top bar */}
+          <div className="fc-topbar fc-fade-in">
+            <div className="fc-brand">
+              chagas<em>.</em>
             </div>
-            <div className="fc-kicker">Minhas Conexões · Brasil</div>
-            <h1 className="fc-title">
-              Francisco <span className="fc-serif">Chagas</span>
-            </h1>
-          </header>
-
-          {/* Action bar */}
-          <div className="fc-fade-in-2" style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 28, flexWrap: "wrap" }}>
-            <button
-              onClick={copyLink}
-              className="fc-theme-btn"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                padding: "9px 14px", minHeight: 38,
-                background: t.card, border: `1px solid ${t.border}`,
-                borderRadius: 999, color: t.text, cursor: "pointer",
-                fontSize: 12, fontWeight: 500, fontFamily: "inherit",
-                backdropFilter: "blur(12px)",
-              }}
-            >
-              <Copy size={13} /> Copiar link
-            </button>
-            <button
-              onClick={() => setShowQR(true)}
-              className="fc-theme-btn"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                padding: "9px 14px", minHeight: 38,
-                background: t.card, border: `1px solid ${t.border}`,
-                borderRadius: 999, color: t.text, cursor: "pointer",
-                fontSize: 12, fontWeight: 500, fontFamily: "inherit",
-                backdropFilter: "blur(12px)",
-              }}
-            >
-              <QrCode size={13} /> QR Code
-            </button>
             <div
               style={{
                 display: "inline-flex", padding: 3,
@@ -361,95 +377,152 @@ function Index() {
               }}
             >
               {[
-                { key: false as const, Icon: Moon },
-                { key: true as const, Icon: Sun },
-              ].map(({ key, Icon }) => {
+                { key: false as const, Icon: Moon, label: "Escuro" },
+                { key: true as const, Icon: Sun, label: "Claro" },
+              ].map(({ key, Icon, label }) => {
                 const active = light === key;
                 return (
                   <button
                     key={String(key)}
-                    className="fc-theme-btn"
                     onClick={() => setLight(key)}
-                    aria-label={key ? "Claro" : "Escuro"}
+                    aria-label={label}
                     style={{
                       display: "inline-flex", alignItems: "center", justifyContent: "center",
-                      width: 32, height: 32, border: 0, borderRadius: 999,
+                      width: 34, height: 34, border: 0, borderRadius: 999,
                       background: active ? t.text : "transparent",
                       color: active ? t.bg : t.subtle, cursor: "pointer",
+                      transition: "all 0.25s ease",
                     }}
                   >
-                    <Icon size={13} />
+                    <Icon size={14} />
                   </button>
                 );
               })}
             </div>
           </div>
 
+          {/* Bento grid */}
+          <div className="fc-bento fc-fade-in">
+            {/* HERO tile */}
+            <section className="fc-tile col-hero" style={{ padding: "clamp(24px, 4vw, 40px)", justifyContent: "space-between", gap: 24 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 20, flexWrap: "wrap" }}>
+                <div style={{ position: "relative", flexShrink: 0 }}>
+                  <div className="fc-avatar-ring" />
+                  <img src={avatar} alt="Francisco Chagas" className="fc-avatar" style={{ position: "relative" }} />
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div className="fc-kicker" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <Sparkles size={11} /> Minhas Conexões
+                  </div>
+                  <h1 className="fc-title" style={{ marginTop: 10 }}>
+                    Francisco<br /><em>Chagas</em>
+                  </h1>
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                <span className="fc-meta"><MapPin size={11} /> Brasil</span>
+                <span className="fc-meta" style={{ color: "var(--aurora-green)" }}>● Online</span>
+                <span className="fc-meta">{links.length} redes</span>
+              </div>
+            </section>
 
-          {/* Links */}
-          <section className="fc-fade-in-3">
-            <h2 style={{ margin: "0 0 14px", padding: "0 4px", fontSize: 13, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: t.subtle }}>
-              Redes
-            </h2>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10, padding: 0, margin: 0 }}>
-              {links.map((link) => (
-                <li key={link.href}>
-                  <a
-                    className="fc-card"
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
+            {/* Actions tile */}
+            <section className="fc-tile col-actions" style={{ justifyContent: "space-between", gap: 14 }}>
+              <div>
+                <div className="fc-kicker" style={{ marginBottom: 6 }}>Compartilhar</div>
+                <p style={{ margin: 0, fontFamily: "'Instrument Serif', serif", fontSize: 22, lineHeight: 1.15, color: t.text }}>
+                  Leve meu perfil <em className="fc-serif" style={{ color: "var(--aurora-green)" }}>com você</em>.
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <button onClick={copyLink} className="fc-btn fc-btn-primary" style={{ flex: 1, minWidth: 130 }}>
+                  <Copy size={14} /> Copiar link
+                </button>
+                <button onClick={() => setShowQR(true)} className="fc-btn" style={{ flex: 1, minWidth: 110 }}>
+                  <QrCode size={14} /> QR Code
+                </button>
+              </div>
+            </section>
+
+            {/* QR preview tile */}
+            <section className="fc-tile col-qr" style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+              <div
+                style={{
+                  padding: 10, borderRadius: 14,
+                  background: "oklch(0.98 0 0)",
+                  boxShadow: "0 8px 24px oklch(0.55 0.18 175 / 0.25)",
+                  flexShrink: 0,
+                }}
+              >
+                <QRCodeSVG value={profileUrl} size={78} level="M" bgColor="#ffffff" fgColor="#16213e" />
+              </div>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div className="fc-kicker" style={{ marginBottom: 6 }}>Escaneie</div>
+                <p style={{ margin: 0, fontFamily: "'Instrument Serif', serif", fontSize: 20, lineHeight: 1.2, color: t.text }}>
+                  Abra meu perfil <em style={{ color: "var(--aurora-purple)" }}>em segundos</em>.
+                </p>
+                <p style={{ margin: "6px 0 0", fontSize: 11.5, color: t.subtle, wordBreak: "break-all" }}>
+                  redeschagas.lovable.app
+                </p>
+              </div>
+            </section>
+
+            {/* Social link tiles */}
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="fc-tile col-social fc-link-tile"
+                style={{ justifyContent: "space-between", gap: 14 }}
+              >
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                  <span
+                    className="fc-icon-box"
                     style={{
-                      display: "flex", alignItems: "center", gap: 14,
-                      padding: "14px 16px", textDecoration: "none",
-                      color: t.text, minHeight: 62,
+                      background: link.img
+                        ? "oklch(1 0 0 / 0.95)"
+                        : `linear-gradient(135deg, ${link.accent} 0%, var(--aurora-purple) 130%)`,
+                      color: "oklch(0.15 0.03 265)",
+                      boxShadow: `0 6px 18px ${link.accent} / 0.25`,
                     }}
                   >
-                    <span
-                      style={{
-                        display: "inline-flex", alignItems: "center", justifyContent: "center",
-                        width: 40, height: 40, borderRadius: 11,
-                        background: "img" in link && link.img
-                          ? "oklch(1 0 0 / 0.95)"
-                          : "linear-gradient(135deg, var(--neon) 0%, var(--neon-2) 100%)",
-                        color: "oklch(0.15 0.02 150)", flexShrink: 0,
-                        boxShadow: "img" in link && link.img ? "0 4px 14px oklch(0.65 0.22 40 / 0.35)" : "none",
-                      }}
-                    >
-                      {"Icon" in link && link.Icon ? (
-                        <link.Icon size={17} />
-                      ) : "img" in link && link.img ? (
-                        <img src={link.img} alt={link.label} style={{ width: 26, height: 26, objectFit: "contain" }} />
-                      ) : null}
-                    </span>
-                    <span style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "-0.005em" }}>{link.label}</span>
-                      <span style={{ fontSize: 12, color: t.subtle, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {link.handle}
-                      </span>
-                    </span>
-                    <ArrowUpRight className="fc-arrow" size={16} color={t.subtle} />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
+                    {link.Icon ? <link.Icon size={18} /> : link.img ? (
+                      <img src={link.img} alt={link.label} style={{ width: 26, height: 26, objectFit: "contain" }} />
+                    ) : null}
+                  </span>
+                  <ArrowUpRight className="fc-arrow" size={18} color={t.subtle} />
+                </div>
+                <div>
+                  <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 22, lineHeight: 1.1, color: t.text }}>
+                    {link.label}
+                  </div>
+                  <div style={{ fontSize: 12, color: t.subtle, marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {link.handle}
+                  </div>
+                </div>
+              </a>
+            ))}
 
-
-          <footer
-            style={{
-              marginTop: 48, paddingTop: 24,
-              borderTop: `1px solid ${t.border}`,
-              textAlign: "center", fontSize: 12,
-              color: t.subtle, letterSpacing: "0.04em",
-            }}
-          >
-            Feito com{" "}
-            <span className="fc-serif" style={{ color: "var(--neon)", fontSize: 14 }}>
-              afeto
-            </span>{" "}
-            por Francisco
-          </footer>
+            {/* Footer tile */}
+            <section
+              className="fc-tile col-footer"
+              style={{
+                flexDirection: "row", alignItems: "center", justifyContent: "space-between",
+                gap: 16, flexWrap: "wrap",
+                padding: "18px 24px", minHeight: 0,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: t.subtle }}>
+                <span style={{ width: 8, height: 8, borderRadius: 999, background: "var(--aurora-green)", boxShadow: "0 0 12px var(--aurora-green)" }} />
+                <span>Feito com <span className="fc-serif" style={{ color: "var(--aurora-green)", fontSize: 15 }}>afeto</span> por Francisco</span>
+              </div>
+              <div style={{ fontSize: 11.5, color: t.subtle, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                © {new Date().getFullYear()}
+              </div>
+            </section>
+          </div>
         </div>
 
         {/* QR Modal */}
@@ -460,35 +533,32 @@ function Index() {
                 onClick={() => setShowQR(false)}
                 aria-label="Fechar"
                 style={{
-                  position: "absolute", top: 12, right: 12,
-                  width: 32, height: 32, borderRadius: 999,
+                  position: "absolute", top: 14, right: 14,
+                  width: 34, height: 34, borderRadius: 999,
                   background: t.card, border: `1px solid ${t.border}`,
                   color: t.text, cursor: "pointer",
                   display: "inline-flex", alignItems: "center", justifyContent: "center",
                 }}
               >
-                <X size={15} />
+                <X size={16} />
               </button>
-              <div className="fc-kicker" style={{ marginBottom: 6 }}>Compartilhar</div>
-              <h3 style={{ margin: "0 0 20px", fontFamily: "'Bricolage Grotesque', sans-serif", fontSize: 22, fontWeight: 600, letterSpacing: "-0.02em", color: t.text }}>
-                Aponte a câmera
+              <div className="fc-kicker" style={{ marginBottom: 8 }}>Compartilhar</div>
+              <h3 style={{
+                margin: "0 0 22px", fontFamily: "'Instrument Serif', serif",
+                fontSize: 30, fontWeight: 400, letterSpacing: "-0.02em", color: t.text,
+              }}>
+                Aponte a <em style={{ color: "var(--aurora-green)" }}>câmera</em>
               </h3>
               <div
                 style={{
-                  display: "inline-block", padding: 16, borderRadius: 16,
+                  display: "inline-block", padding: 18, borderRadius: 18,
                   background: "oklch(0.98 0 0)",
-                  boxShadow: "0 0 40px oklch(0.85 0.24 145 / 0.3)",
+                  boxShadow: "0 0 50px oklch(0.55 0.18 175 / 0.35)",
                 }}
               >
-                <QRCodeSVG
-                  value={profileUrl || "https://lovable.dev"}
-                  size={200}
-                  level="M"
-                  bgColor="#ffffff"
-                  fgColor="#0a1a12"
-                />
+                <QRCodeSVG value={profileUrl} size={208} level="M" bgColor="#ffffff" fgColor="#16213e" />
               </div>
-              <p style={{ margin: "18px 0 0", fontSize: 12, color: t.subtle }}>
+              <p style={{ margin: "20px 0 0", fontSize: 12.5, color: t.subtle }}>
                 Escaneie para abrir este perfil
               </p>
             </div>
