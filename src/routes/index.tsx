@@ -384,10 +384,7 @@ function Index() {
 
         <div className="fc-shell">
           {/* Top bar */}
-          <div className="fc-topbar fc-fade-in">
-            <div className="fc-brand">
-              chagas<em>.</em>
-            </div>
+          <div className="fc-topbar fc-fade-in" style={{ justifyContent: "flex-end" }}>
             <div
               style={{
                 display: "inline-flex", padding: 3,
