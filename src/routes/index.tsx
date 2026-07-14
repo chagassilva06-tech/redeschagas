@@ -317,7 +317,7 @@ function Index() {
                 />
               </div>
             </div>
-            <div className="fc-kicker">Desenvolvedor · Brasil</div>
+            <div className="fc-kicker">Minhas Conexões · Brasil</div>
             <h1 className="fc-title">
               Francisco <span className="fc-serif">Chagas</span>
             </h1>
